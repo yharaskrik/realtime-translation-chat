@@ -1,14 +1,26 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { MessageStore } from './message.store';
 
 @Component({
-	standalone: true,
-	imports: [NxWelcomeComponent, RouterModule],
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrl: './app.component.scss',
+    standalone: true,
+    imports: [RouterModule],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-	title = 'realtime-translation-chat';
+    title = 'realtime-translation-chat';
+    constructor() {
+        this.createSession();
+    }
+
+    async createSession() {
+        const session = await (window as any).ai.createTextSession();
+
+        console.log(
+            await session.prompt('Translate the following sentence to Japanese: Hello, how are you today?')
+        );
+    }
 }
