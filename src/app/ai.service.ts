@@ -12,8 +12,6 @@ declare const ai: {
     providedIn: 'root',
 })
 export class AiService {
-    private session: Session | null = null;
-
     readonly available = signal<boolean | null>(null);
 
     constructor() {
@@ -27,11 +25,9 @@ export class AiService {
     }
 
     async translate(content: string, toLanguage: string | null): Promise<string> {
-        if (!this.session) {
-            this.session = await ai.createTextSession();
-        }
+        const session = await ai.createTextSession();
 
-        return this.session.prompt(
+        return session.prompt(
             `Translate the following content to ${toLanguage}, if the content is already in ${toLanguage} then do not translate it and just return the content: ${content}`
         );
     }
