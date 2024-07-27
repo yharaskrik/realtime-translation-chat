@@ -84,7 +84,7 @@ export const MessageStore = signalStore(
                         tap((message: Message | null) => {
                             if (message)
                                 patchState(store, () => ({
-                                    messages: [...store.messages(), message],
+                                    messages: [...store.messages(), message].slice(store.messages().length - 50),
                                 }));
                         })
                     )
